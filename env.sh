@@ -1,0 +1,1 @@
+export LD_LIBRARY_PATH=/home/a/Software/OpenBLAS-0.3.28-pthreads/lib:$LD_LIBRARY_PATH

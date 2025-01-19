@@ -1,0 +1,18 @@
+[package]
+name = "showcase_rust_riccsd"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rstsr-core = { path = "/home/a/Git-Repo/rstsr/rstsr-core" }
+rstsr-openblas-ffi = { path = "/home/a/Git-Repo/rstsr/rstsr-openblas-ffi" }
+rstsr-openblas = { path = "/home/a/Git-Repo/rstsr/rstsr-openblas" }
+# rest_libcint = { path = "/home/a/Git-Repo/rest_libcint" }
+rayon = { version = "1.10" }
+npyz = { version = "0.8" }
+
+[profile.dev]
+opt-level = 2
+
+[profile.release]
+opt-level = 3
