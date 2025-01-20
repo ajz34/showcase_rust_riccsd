@@ -59,9 +59,6 @@ fn test_h2o_parts() {
     let rhs2_ref = get_vec_from_npy::<f64>(mol_dir_root.to_string() + "RHS2-o2v4.npy");
     let rhs2_ref = rt::asarray((rhs2_ref, [nocc, nocc, nvir, nvir], &device));
     println!("{:16.10}", (&rhs2 - &rhs2_ref).abs().sum_all());
-
-    // let rhs2 = rhs2.view() + rhs2.view().transpose((1, 0, 3, 2));
-    // println!("{:16.10}", rhs2.sin().sum_all());
 }
 
 #[test]
@@ -80,8 +77,8 @@ fn test_h2o_one_iter() {
 
     get_riccsd_intermediates_1(&mol_info, &mut intermediates, &t1, &t2);
     let ccsd_info = update_riccsd_amplitude(&mol_info, &mut intermediates, &ccsd_info_ref);
-    println!("{:18.10}", (&ccsd_info.t1 - &ccsd_info_ref.t1).abs().sum_all());
-    println!("{:18.10}", (&ccsd_info.t2 - &ccsd_info_ref.t2).abs().sum_all());
+    println!("{:18.10}", (&ccsd_info.t1 - &ccsd_info_ref.t1).mapv(|x| x * x).sum_all().sqrt());
+    println!("{:18.10}", (&ccsd_info.t2 - &ccsd_info_ref.t2).mapv(|x| x * x).sum_all().sqrt());
     println!("{:18.10}", ccsd_info.e_corr);
 }
 
@@ -100,4 +97,25 @@ fn test_h2o_full_iter() {
 
     let ccsd_info = naive_riccsd_iteration(&mol_info, &cc_config);
     println!("Final CCSD Corr Energy {:18.10}", ccsd_info.e_corr);
+}
+
+#[test]
+fn test_h2o_pp5_one_iter() {
+    let mol_dir_root = "/home/a/Documents-Group-Xu/2025-01-17-rust_ccsd/python/h2o_pp5-cc-pvdz/";
+    let mut mol_info = read_mol_info(mol_dir_root.to_string());
+    read_mol_cderi(&mut mol_info, mol_dir_root.to_string());
+    let ccsd_info_ref = read_amplitude(mol_dir_root.to_string(), &mol_info);
+
+    let B = get_cderi_mo(&mol_info);
+    let mut intermediates = CCSDIntermediates::new_empty();
+    intermediates.cderi = Some(B);
+
+    let t1 = &ccsd_info_ref.t1;
+    let t2 = &ccsd_info_ref.t2;
+
+    get_riccsd_intermediates_1(&mol_info, &mut intermediates, &t1, &t2);
+    let ccsd_info = update_riccsd_amplitude(&mol_info, &mut intermediates, &ccsd_info_ref);
+    println!("{:18.10}", (&ccsd_info.t1 - &ccsd_info_ref.t1).mapv(|x| x * x).sum_all().sqrt());
+    println!("{:18.10}", (&ccsd_info.t2 - &ccsd_info_ref.t2).mapv(|x| x * x).sum_all().sqrt());
+    println!("{:18.10}", ccsd_info.e_corr);
 }

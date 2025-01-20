@@ -265,70 +265,50 @@ pub fn get_riccsd_rhs2_o3v3(mol_info: &MolInfo, rhs2: TsrMut, intermediates: &CC
 
     let device = b_ov.device().clone();
 
-    // scr_kcld = np.einsum("kdP, lcP -> kcld", B[so, sv], B[so, sv])
+    // t2t = np.ascontiguousarray(t2.swapaxes(-1, -2))
+    // scr1 = np.einsum("kdP, lcP -> kldc", B[so, sv], B[so, sv])
+    // scr2 = np.einsum("kldc, ilda -> ikca", scr1, t2)
+    // scr3 = np.einsum("kldc, ilda -> ikca", scr1, t2t)
+    // scr4 = np.einsum("ikP, acP -> ikca", (B[so, so] + M1oo), (B[sv, sv] - M1vv))
+    // RHS2 += np.einsum("ikca, jkcb -> ijab", - scr4 + scr2 - scr3, t2t)
+    // RHS2 += np.einsum("ikcb, jkca -> ijab", - scr4 + 0.5 * scr2, t2)
 
-    let scr_kcld: Tsr = rt::zeros(([nocc, nvir, nocc, nvir], &device));
+    let t2t = t2.swapaxes(-1, -2).into_layout(t2.shape().c());
+    let scr_ikP = b_oo + m1_oo;
+    let scr_acP = b_vv - m1_vv;
+
+    let scr1: Tsr = rt::zeros(([nocc, nocc, nvir, nvir], &device));
     (0..nocc).into_par_iter().for_each(|k| {
         (0..k + 1).into_par_iter().for_each(|l| {
-            let mut scr_kcld = unsafe { scr_kcld.force_mut() };
-            let scr = b_ov.i(l) % b_ov.i(k).t();
-            *&mut scr_kcld.i_mut((k, .., l)) += &scr;
+            let mut scr1 = unsafe { scr1.force_mut() };
+            let scr = b_ov.i(k) % b_ov.i(l).t();
+            scr1.i_mut((k, l)).assign(&scr);
             if k != l {
-                *&mut scr_kcld.i_mut((l, .., k)) += scr.t();
+                scr1.i_mut((l, k)).assign(scr.t());
             }
         });
     });
 
-    // === O3V3 Term2 === //
-    // scr_ikca = np.einsum("kcld, ilad -> ikca", scr_kcld, (2 * t2 - t2.swapaxes(-1, -2)))
-    // RHS2 += -0.5 * np.einsum("ikca, jkbc -> ijab", scr_ikca, t2)
-
-    (0..nocc).into_iter().for_each(|i| {
-        let t2_lad: Tsr = 2 * t2.i(i).transpose((1, 0, 2)) - t2.i(i).transpose((2, 0, 1));
-        let scr_kca = scr_kcld.reshape((nocc * nvir, -1)) % t2_lad.reshape((nvir, -1)).t();
-        let scr_kca = scr_kca.into_shape((nocc, nvir, nvir));
-        (0..nocc).into_par_iter().for_each(|j| {
-            let mat_ab = (0..nocc)
-                .into_par_iter()
-                .map(|k| scr_kca.i(k).t() % t2.i((j, k)).t())
-                .reduce(|| rt::zeros(([nvir, nvir], &device)), |a: Tsr, b: Tsr| a + b);
-            // let mut mat_ab: Tsr = rt::zeros(([nvir, nvir], &device));
-            // for k in 0..nocc {
-            //     mat_ab += scr_kca.i(k).t() % t2.i((j, k)).t();
-            // }
-            let mut rhs2 = unsafe { rhs2.force_mut() };
-            *&mut rhs2.i_mut((i, j)) -= 0.5 * mat_ab;
+    (0..nocc).into_par_iter().for_each(|i| {
+        let scr2 = rt::zeros(([nocc, nvir, nvir], &device));
+        let scr3 = rt::zeros(([nocc, nvir, nvir], &device));
+        let scr4 = rt::zeros(([nocc, nvir, nvir], &device));
+        (0..nocc).into_par_iter().for_each(|k| {
+            let mut scr2 = unsafe { scr2.force_mut() };
+            let mut scr3 = unsafe { scr3.force_mut() };
+            scr2.i_mut(k).matmul_from(&scr1.i(k).reshape((-1, nvir)).t(), &t2.i(i).reshape((-1, nvir)), 1.0, 0.0);
+            scr3.i_mut(k).matmul_from(&scr1.i(k).reshape((-1, nvir)).t(), &t2t.i(i).reshape((-1, nvir)), 1.0, 0.0);
         });
-    });
-
-    // === O3V3 Term1 === //
-    // reuse scr_kcld
-    // scr_ikca = 0.5 * np.einsum("kcld, ilda -> ikca", scr_kcld, t2)
-    // scr_ikca -= np.einsum("ikP, acP -> ikca", (B[so, so] + M1oo), (B[sv, sv] - M1vv))
-    // RHS2 += np.einsum("ikcb, jkca -> ijab", scr_ikca, t2)
-    // RHS2 += np.einsum("ikca, jkbc -> ijab", scr_ikca, t2)
-
-    let scr_ikP = b_oo + m1_oo;
-    let scr_acP = b_vv - m1_vv;
-
-    (0..nocc).into_iter().for_each(|i| {
-        let scr_kca: Tsr = 0.5 * (scr_kcld.reshape((nocc * nvir, -1)) % t2.i(i).reshape((-1, nvir)));
-        let scr_kca = scr_kca.into_shape((nocc, nvir, nvir));
         (0..nvir).into_par_iter().for_each(|c| {
-            let mut scr_kca = unsafe { scr_kca.force_mut() };
-            *&mut scr_kca.i_mut((.., c)) -= scr_ikP.i(i) % scr_acP.i((.., c)).t();
+            let mut scr4 = unsafe { scr4.force_mut() };
+            scr4.i_mut((.., c)).matmul_from(&scr_ikP.i(i), &scr_acP.i((.., c)).t(), 1.0, 0.0);
         });
+        let scr5: Tsr = -scr3 - &scr4 + &scr2;
+        let scr6: Tsr = -scr4 + 0.5 * &scr2;
         (0..nocc).into_par_iter().for_each(|j| {
-            let mat_ab = (0..nocc)
-                .into_par_iter()
-                .map(|k| t2.i((j, k)).t() % scr_kca.i(k) + scr_kca.i(k).t() % t2.i((j, k)).t())
-                .reduce(|| rt::zeros(([nvir, nvir], &device)), |a: Tsr, b: Tsr| a + b);
-            // let mut mat_ab: Tsr = rt::zeros(([nvir, nvir], &device));
-            // for k in 0..nocc {
-            //     mat_ab += t2.i((j, k)).t() % scr_kca.i(k) + scr_kca.i(k).t() % t2.i((j, k)).t();
-            // }
             let mut rhs2 = unsafe { rhs2.force_mut() };
-            *&mut rhs2.i_mut((i, j)) += mat_ab;
+            rhs2.i_mut((i, j)).matmul_from(&scr5.reshape((-1, nvir)).t(), &t2t.i(j).reshape((-1, nvir)), 1.0, 1.0);
+            rhs2.i_mut((i, j)).matmul_from(&t2.i(j).reshape((-1, nvir)).t(), &scr6.reshape((-1, nvir)), 1.0, 1.0);
         });
     });
 }
@@ -524,11 +504,7 @@ pub fn update_riccsd_amplitude(mol_info: &MolInfo, intermediates: &mut CCSDInter
     let e_corr = get_riccsd_energy(mol_info, &intermediates);
     println!("Time elapsed (energy): {:?}", timer.elapsed());
 
-    let result = CCSDInfo {
-        t1: t1_new,
-        t2: t2_new,
-        e_corr,
-    };
+    let result = CCSDInfo { t1: t1_new, t2: t2_new, e_corr };
 
     println!("Time elapsed: {:?}", timer_outer.elapsed());
 
@@ -593,12 +569,12 @@ pub fn naive_riccsd_iteration(mol_info: &MolInfo, cc_config: &CCSDConfig) -> CCS
         let ccsd_info_new = update_riccsd_amplitude(mol_info, &mut intermediates, &ccsd_info);
         println!("    Energy: {:?}", ccsd_info.e_corr);
         let diff_eng = ccsd_info_new.e_corr - ccsd_info.e_corr;
-        let diff_t1 = (&ccsd_info_new.t1 - &ccsd_info.t1).abs().sum_all();
-        let diff_t2 = (&ccsd_info_new.t2 - &ccsd_info.t2).abs().sum_all();
+        let norm_t1 = (&ccsd_info_new.t1 - &ccsd_info.t1).mapv(|x| x * x).sum_all().sqrt();
+        let norm_t2 = (&ccsd_info_new.t2 - &ccsd_info.t2).mapv(|x| x * x).sum_all().sqrt();
         println!("    Energy diff: {:?}", diff_eng);
-        println!("    T1 diff: {:?}", diff_t1);
-        println!("    T2 diff: {:?}", diff_t2);
-        if diff_eng.abs() < cc_config.conv_tol_e && diff_t1 < cc_config.conv_tol_t1 && diff_t2 < cc_config.conv_tol_t2 {
+        println!("    T1 norm: {:?}", norm_t1);
+        println!("    T2 norm: {:?}", norm_t2);
+        if diff_eng.abs() < cc_config.conv_tol_e && norm_t1 < cc_config.conv_tol_t1 && norm_t2 < cc_config.conv_tol_t2 {
             println!("CCSD converged in {niter} iterations.");
             return ccsd_info_new;
         }
