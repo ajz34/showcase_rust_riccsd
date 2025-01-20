@@ -14,6 +14,13 @@ pub struct MolInfo {
     pub(crate) cderi: Option<Tsr>,
 }
 
+pub struct CCSDConfig {
+    pub max_cycle: usize,
+    pub conv_tol_e: f64,
+    pub conv_tol_t1: f64,
+    pub conv_tol_t2: f64,
+}
+
 pub struct CCSDInfo {
     pub e_corr: f64,
     pub t1: Tsr,

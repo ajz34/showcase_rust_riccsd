@@ -6,10 +6,7 @@ where
     T: npyz::Deserialize,
 {
     let bytes = std::fs::read(path).unwrap();
-    let vec = npyz::NpyFile::new(&bytes[..])
-        .unwrap()
-        .into_vec::<T>()
-        .unwrap();
+    let vec = npyz::NpyFile::new(&bytes[..]).unwrap().into_vec::<T>().unwrap();
     return vec;
 }
 

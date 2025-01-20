@@ -4,18 +4,21 @@
         "RAYON_NUM_THREADS": "16",
         "CARGO_TARGET_DIR": "debug",
         "LD_LIBRARY_PATH": "/home/a/Software/OpenBLAS-0.3.28-pthreads/lib:$LD_LIBRARY_PATH",
+        "RUST_MIN_STACK": "1073741824",
     },
     "rust-analyzer.cargo.extraEnv": {
         "RUSTFLAGS": "-C link-arg=-fuse-ld=lld",
         "RAYON_NUM_THREADS": "16",
         "CARGO_TARGET_DIR": "debug",
         "LD_LIBRARY_PATH": "/home/a/Software/OpenBLAS-0.3.28-pthreads/lib:$LD_LIBRARY_PATH",
+        "RUST_MIN_STACK": "1073741824",
     },
     "rust-analyzer.runnables.extraEnv": {
         "RUSTFLAGS": "-C link-arg=-fuse-ld=lld",
         "RAYON_NUM_THREADS": "16",
         "CARGO_TARGET_DIR": "debug",
         "LD_LIBRARY_PATH": "/home/a/Software/OpenBLAS-0.3.28-pthreads/lib:$LD_LIBRARY_PATH",
+        "RUST_MIN_STACK": "1073741824",
     },
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer", 
