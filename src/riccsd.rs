@@ -24,17 +24,17 @@ pub fn get_riccsd_intermediates_1(mol_info: &MolInfo, intermediates: &mut CCSDIn
     let so = slice!(0, nocc);
     let sv = slice!(nocc, nocc + nvir);
 
-    let B = intermediates.cderi.as_ref().unwrap();
-    let device = B.device().clone();
+    let b_ov = intermediates.cderi.as_ref().unwrap().i((so, sv));
+    let device = b_ov.device().clone();
 
     // M1j = np.einsum("jbP, jb -> P", B[so, sv], t1)
-    let m1_j = t1.reshape(-1) % B.i((so, sv)).reshape((-1, naux));
+    let m1_j = t1.reshape(-1) % b_ov.reshape((-1, naux));
 
     // M1oo = np.einsum("jaP, ia -> ijP", B[so, sv], t1)
     let m1_oo: Tsr = rt::zeros(([nocc, nocc, naux], &device));
     (0..nocc).into_par_iter().for_each(|j| {
         let mut m1_oo = unsafe { m1_oo.force_mut() };
-        *&mut m1_oo.i_mut((.., j)) += t1 % &B.i((j, sv));
+        *&mut m1_oo.i_mut((.., j)) += t1 % &b_ov.i(j);
     });
 
     // M2a = np.einsum("jbP, ijab -> iaP", B[so, sv], (2 * t2 - t2.swapaxes(-1, -2)))
@@ -42,12 +42,8 @@ pub fn get_riccsd_intermediates_1(mol_info: &MolInfo, intermediates: &mut CCSDIn
     (0..nocc).into_par_iter().for_each(|i| {
         let mut m2a_ov = unsafe { m2a_ov.force_mut() };
         let scr_jba: Tsr = -t2.i(i) + 2 * t2.i(i).swapaxes(-1, -2);
-        *&mut m2a_ov.i_mut(i) += scr_jba.reshape((-1, nvir)).t() % B.i((so, sv)).reshape((-1, naux));
+        *&mut m2a_ov.i_mut(i) += scr_jba.reshape((-1, nvir)).t() % b_ov.reshape((-1, naux));
     });
-
-    // println!("m1_j   {:}", (&m1_j).sin().sum_all());
-    // println!("m1_oo  {:}", (&m1_oo).sin().sum_all());
-    // println!("m2a_ov {:}", (&m2a_ov).sin().sum_all());
 
     intermediates.m1_j = Some(m1_j);
     intermediates.m1_oo = Some(m1_oo);
@@ -62,23 +58,25 @@ pub fn get_riccsd_intermediates_2(mol_info: &MolInfo, intermediates: &mut CCSDIn
     let so = slice!(0, nocc);
     let sv = slice!(nocc, nocc + nvir);
 
-    let B = intermediates.cderi.as_ref().unwrap();
-    let device = B.device().clone();
+    let b_oo = intermediates.cderi.as_ref().unwrap().i((so, so));
+    let b_ov = intermediates.cderi.as_ref().unwrap().i((so, sv));
+    let b_vv = intermediates.cderi.as_ref().unwrap().i((sv, sv));
+    let device = b_oo.device().clone();
     let m1_oo = intermediates.m1_oo.as_ref().unwrap();
 
     // M1aov = np.einsum("ijP, ja -> iaP", B[so, so], t1)
     let m1a_ov = rt::zeros(([nocc, nvir, naux], &device));
     (0..nocc).into_par_iter().for_each(|i| {
         let mut m1a_ov = unsafe { m1a_ov.force_mut() };
-        *&mut m1a_ov.i_mut(i) += t1.t() % &B.i((i, so));
+        *&mut m1a_ov.i_mut(i) += t1.t() % &b_oo.i(i);
     });
 
     // M1bov  = np.einsum("abP, ib -> iaP", B[sv, sv], t1)
-    let m1b_ov = t1 % B.i((sv, sv)).reshape((nvir, -1));
+    let m1b_ov = t1 % b_vv.reshape((nvir, -1));
     let m1b_ov = m1b_ov.into_shape((nocc, nvir, naux));
 
     // M1vv = np.einsum("ibP, ia -> abP", B[so, sv], t1)
-    let m1_vv = t1.t() % B.i((so, sv)).reshape((nocc, -1));
+    let m1_vv = t1.t() % b_ov.reshape((nocc, -1));
     let m1_vv = m1_vv.into_shape((nvir, nvir, naux));
 
     // M2b = np.einsum("ikP, ka -> iaP", M1oo, t1)
@@ -87,11 +85,6 @@ pub fn get_riccsd_intermediates_2(mol_info: &MolInfo, intermediates: &mut CCSDIn
         let mut m2b_ov = unsafe { m2b_ov.force_mut() };
         *&mut m2b_ov.i_mut(i) += t1.t() % m1_oo.i(i);
     });
-
-    // println!("m1a_ov {:}", (&m1a_ov).sin().sum_all());
-    // println!("m1b_ov {:}", (&m1b_ov).sin().sum_all());
-    // println!("m1_vv  {:}", (&m1_vv).sin().sum_all());
-    // println!("m2b_ov {:}", (&m2b_ov).sin().sum_all());
 
     intermediates.m1a_ov = Some(m1a_ov);
     intermediates.m1b_ov = Some(m1b_ov);
@@ -106,14 +99,14 @@ pub fn get_riccsd_energy(mol_info: &MolInfo, intermediates: &CCSDIntermediates) 
     let so = slice!(0, nocc);
     let sv = slice!(nocc, nocc + nvir);
 
-    let B = intermediates.cderi.as_ref().unwrap();
+    let b_ov = intermediates.cderi.as_ref().unwrap().i((so, sv));
     let m1_j = intermediates.m1_j.as_ref().unwrap();
     let m1_oo = intermediates.m1_oo.as_ref().unwrap();
     let m2a_ov = intermediates.m2a_ov.as_ref().unwrap();
 
     let e_t1_j = 2.0 * (m1_j.reshape(-1) % m1_j.reshape(-1));
     let e_t1_k = -(m1_oo.reshape(-1) % m1_oo.swapaxes(0, 1).reshape(-1));
-    let e_t2 = B.i((so, sv)).reshape(-1) % m2a_ov.reshape(-1);
+    let e_t2 = b_ov.reshape(-1) % m2a_ov.reshape(-1);
     let e_corr: Tsr = e_t1_j + e_t1_k + e_t2;
     let e_corr = e_corr.to_scalar();
     return e_corr;
@@ -127,7 +120,9 @@ pub fn get_riccsd_rhs1(mol_info: &MolInfo, mut rhs1: TsrMut, intermediates: &CCS
     let so = slice!(0, nocc);
     let sv = slice!(nocc, nocc + nvir);
 
-    let B = intermediates.cderi.as_ref().unwrap();
+    let b_oo = intermediates.cderi.as_ref().unwrap().i((so, so));
+    let b_ov = intermediates.cderi.as_ref().unwrap().i((so, sv));
+    let b_vv = intermediates.cderi.as_ref().unwrap().i((sv, sv));
     let m1_j = intermediates.m1_j.as_ref().unwrap();
     let m1_oo = intermediates.m1_oo.as_ref().unwrap();
     let m1a_ov = intermediates.m1a_ov.as_ref().unwrap();
@@ -135,7 +130,7 @@ pub fn get_riccsd_rhs1(mol_info: &MolInfo, mut rhs1: TsrMut, intermediates: &CCS
     let m2a_ov = intermediates.m2a_ov.as_ref().unwrap();
     let m2b_ov = intermediates.m2b_ov.as_ref().unwrap();
 
-    let device = B.device().clone();
+    let device = b_oo.device().clone();
 
     // === TERM 1 === //
     // RHS1 += - 1 * np.einsum("lcP, lkP, ikac -> ia", B[so, sv], M1oo, (2 * t2 - t2.swapaxes(-1, -2)))
@@ -143,7 +138,7 @@ pub fn get_riccsd_rhs1(mol_info: &MolInfo, mut rhs1: TsrMut, intermediates: &CCS
     // "lcP, lkP -> kc", B[so, sv], M1oo
     let mut scr_kc: Tsr = rt::zeros(([nocc, nvir], &device));
     for l in 0..nocc {
-        scr_kc += m1_oo.i(l) % B.i((l, sv)).t();
+        scr_kc += m1_oo.i(l) % b_ov.i(l).t();
     }
 
     // "kc, ikac -> ia", scr_kc, (2 * t2 - t2.swapaxes(-1, -2)))
@@ -157,24 +152,24 @@ pub fn get_riccsd_rhs1(mol_info: &MolInfo, mut rhs1: TsrMut, intermediates: &CCS
     // // === TERM 2 === //
     // RHS1 += - 1 * np.einsum("kcP, icP, ka -> ia", B[so, sv], (M2a - M1aov), t1)
 
-    rhs1 -= (m2a_ov - m1a_ov).reshape((nocc, -1)) % B.i((so, sv)).reshape((nocc, -1)).t() % t1;
+    rhs1 -= (m2a_ov - m1a_ov).reshape((nocc, -1)) % b_ov.reshape((nocc, -1)).t() % t1;
 
     // === TERM 3 === //
     // RHS1 +=   1 * np.einsum("icP, acP -> ia", M2a, B[sv, sv])
 
-    rhs1 += m2a_ov.reshape((nocc, -1)) % B.i((sv, sv)).reshape((nvir, -1)).t();
+    rhs1 += m2a_ov.reshape((nocc, -1)) % b_vv.reshape((nvir, -1)).t();
 
     // === TERM 4 === //
     // RHS1 += - 1 * np.einsum("ikP, kaP -> ia", (B[so, so] + M1oo), (M2a + M1bov))
 
     for k in 0..nocc {
-        rhs1 -= (B.i((so, k)) + m1_oo.i((.., k))) % (m2a_ov.i(k) + m1b_ov.i(k)).t();
+        rhs1 -= (b_oo.i(k) + m1_oo.i((.., k))) % (m2a_ov.i(k) + m1b_ov.i(k)).t();
     }
 
     // === TERM 5 === //
     // RHS1 +=   2 * np.einsum("iaP, P -> ia", (B[so, sv] + M1bov - M1aov + M2a - 0.5 * M2b), M1j)
 
-    let scr_iaP: Tsr = B.i((so, sv)) + m1b_ov - m1a_ov + m2a_ov - 0.5 * m2b_ov;
+    let scr_iaP: Tsr = b_ov + m1b_ov - m1a_ov + m2a_ov - 0.5 * m2b_ov;
     rhs1 += 2.0 * (scr_iaP.reshape((-1, naux)) % m1_j).into_shape((nocc, nvir));
     // AJZ NOTE: it seems that cow tensor could not be multiplied by value, and that can be inconvenient.
     //           So using into_shape here.
@@ -188,7 +183,9 @@ pub fn get_riccsd_rhs2_lt2_contract(mol_info: &MolInfo, mut rhs2: TsrMut, interm
     let so = slice!(0, nocc);
     let sv = slice!(nocc, nocc + nvir);
 
-    let B = intermediates.cderi.as_ref().unwrap();
+    let b_oo = intermediates.cderi.as_ref().unwrap().i((so, so));
+    let b_ov = intermediates.cderi.as_ref().unwrap().i((so, sv));
+    let b_vv = intermediates.cderi.as_ref().unwrap().i((sv, sv));
     let m1_j = intermediates.m1_j.as_ref().unwrap();
     let m1_oo = intermediates.m1_oo.as_ref().unwrap();
     let m1_vv = intermediates.m1_vv.as_ref().unwrap();
@@ -202,11 +199,11 @@ pub fn get_riccsd_rhs2_lt2_contract(mol_info: &MolInfo, mut rhs2: TsrMut, interm
     //     + np.einsum("ikP, P -> ik", 2 * B[so, so] + M1oo, M1j))
     // RHS2 -= np.einsum("ik, kjab -> ijab", Loo, t2)
 
-    let mut l_oo = m2a_ov.reshape((nocc, -1)) % B.i((so, sv)).reshape((nocc, -1)).t();
-    let scr: Tsr = 2 * B.i((so, so)) + m1_oo;
+    let mut l_oo = m2a_ov.reshape((nocc, -1)) % b_ov.reshape((nocc, -1)).t();
+    let scr: Tsr = 2 * &b_oo + m1_oo;
     l_oo += (scr.reshape((-1, naux)) % m1_j).into_shape((nocc, nocc));
     for l in 0..nocc {
-        l_oo -= B.i((l, so)) % m1_oo.i(l).t();
+        l_oo -= b_oo.i(l) % m1_oo.i(l).t();
     }
 
     rhs2 -= (l_oo % t2.reshape((nocc, -1))).into_shape((nocc, nocc, nvir, nvir));
@@ -216,10 +213,10 @@ pub fn get_riccsd_rhs2_lt2_contract(mol_info: &MolInfo, mut rhs2: TsrMut, interm
     //     + 1 * np.einsum("acP, P -> ac", 2 * B[sv, sv] - M1vv, M1j))
     // RHS2 += np.einsum("ac, ijcb -> ijab", Lvv, t2)
 
-    let scr: Tsr = 2 * B.i((sv, sv)) - m1_vv;
+    let scr: Tsr = 2 * b_vv - m1_vv;
     let mut l_vv = (scr.reshape((-1, naux)) % m1_j).into_shape((nvir, nvir));
     for k in 0..nocc {
-        l_vv -= (m2a_ov + m1b_ov).i(k) % B.i((k, sv)).t();
+        l_vv -= (m2a_ov + m1b_ov).i(k) % b_ov.i(k).t();
     }
 
     rhs2 += (t2.reshape((-1, nvir)) % l_vv.t()).into_shape((nocc, nocc, nvir, nvir));
