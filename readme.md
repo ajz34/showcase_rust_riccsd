@@ -68,16 +68,23 @@ This project has not optimized for lowering memory footprints. This code accepts
 
 ## To reproduce
 
-This project is only for efficiency and code style demonstration. I'm currently not going to make this showcase to be more easily used by user.
+This project is only for efficiency and code style demonstration. Usability is not the first concern.
+
+Binary file is available for this showcase. Refer to [release page](https://github.com/ajz34/showcase_rust_riccsd/releases/tag/v0.1).
+
+To use this binary, some preparation is required:
+```bash
+export RAYON_NUM_THREADS=16     # number of parallel
+export RUST_MIN_STACK=16777216  # could be larger if stack overflow
+export LD_LIBRARY_PATH=<your pthread openblas directory>:$LD_LIBRARY_PATH
+
+./showcase_rust_riccsd_glibc_2.17 <directory of your npy files>
+```
 
 This project requires the user (more details in [env file](env.sh) or [vscode setting](.vscode/settings.json))
-- to provide `libopenblas.so` (pthread scheme) in `$LD_LIBRARY_PATH`. Due to how rust's FFI works, OpenMP compiled OpenBLAS does not work;
-- change `RUST_MIN_STACK = 16777216` (or more), otherwise `thread '<unknown>' has overflowed its stack` may occur.
-
-This project have many hard-coded paths. You may need to modify these paths on your own.
-
-This program does not run Hartree-Fock on its own. You need to provide coefficients / MO energies / occupations / lower-triangular packed cholesky-decomposed ERI in AO in `.npy` format. See [python_scripts](python_scripts) for details.
-
-
-
-
+- Provide `libopenblas.so` (pthread scheme) in `$LD_LIBRARY_PATH`. Due to how rust's FFI works, OpenMP compiled OpenBLAS does not work;
+- Provide `*.npy` files, in pyscf convention (see [python_scripts](python_scripts) for details):
+    - mo_coeff.npy (in c-contiguous, shape (nao, nmo))
+    - mo_energy.npy
+    - mo_coeff.npy
+    - cderi.npy (in lower-triangular packed AO basis)
