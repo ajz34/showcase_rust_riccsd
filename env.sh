@@ -1,3 +1,3 @@
 export RAYON_NUM_THREADS=16
-export RUST_MIN_STACK=1073741824
+export RUST_MIN_STACK=16777216
 export LD_LIBRARY_PATH=/home/a/Software/OpenBLAS-0.3.28-pthreads/lib:$LD_LIBRARY_PATH

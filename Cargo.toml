@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# rstsr version: https://github.com/ajz34/rstsr/commit/403e815f9014f60346716b4fc754b78e0006db9f
 rstsr-core = { path = "/home/a/Git-Repo/rstsr/rstsr-core" }
 rstsr-openblas-ffi = { path = "/home/a/Git-Repo/rstsr/rstsr-openblas-ffi" }
 rstsr-openblas = { path = "/home/a/Git-Repo/rstsr/rstsr-openblas" }

@@ -1,3 +1,4 @@
+*.npy
 tmp*
 tmp
 profile
