@@ -31,9 +31,9 @@
     -----------------------------------------------------------------------
 
 
-    Psi4 started on: Tuesday, 21 January 2025 12:50PM
+    Psi4 started on: Tuesday, 21 January 2025 06:14PM
 
-    Process ID: 291548
+    Process ID: 573651
     Host:       a-Legion
     PSIDATADIR: /scratch/miniconda3/envs/psi4/share/psi4
     Memory:     500.0 MiB
@@ -53,7 +53,7 @@ set {
     scf_type df
     freeze_core true
     cc_type df
-    qc_module occ
+    qc_module fnocc
 }
 
 molecule h2o_pp5 {
@@ -106,7 +106,7 @@ Scratch directory: /tmp/
     Solid Harmonics ordering:            Gaussian
 
 *** tstart() called on a-Legion
-*** at Tue Jan 21 12:50:15 2025
+*** at Tue Jan 21 18:14:16 2025
 
    => Loading Basis Set <=
 
@@ -251,18 +251,18 @@ Scratch directory: /tmp/
 
                            Total Energy        Delta E     RMS |[F,P]|
 
-   @DF-RHF iter SAD:  -756.13529261921212   -7.56135e+02   0.00000e+00 
-   @DF-RHF iter   1:  -759.90321812805746   -3.76793e+00   4.64975e-03 ADIIS/DIIS
-   @DF-RHF iter   2:  -760.29316733569271   -3.89949e-01   2.47399e-03 ADIIS/DIIS
-   @DF-RHF iter   3:  -760.41328141373788   -1.20114e-01   2.80278e-04 ADIIS/DIIS
-   @DF-RHF iter   4:  -760.41696735839741   -3.68594e-03   5.52234e-05 DIIS
-   @DF-RHF iter   5:  -760.41714836224355   -1.81004e-04   1.65455e-05 DIIS
-   @DF-RHF iter   6:  -760.41716949704312   -2.11348e-05   5.54613e-06 DIIS
-   @DF-RHF iter   7:  -760.41717072468475   -1.22764e-06   1.63501e-06 DIIS
-   @DF-RHF iter   8:  -760.41717086524488   -1.40560e-07   2.62065e-07 DIIS
-   @DF-RHF iter   9:  -760.41717086917083   -3.92595e-09   1.15644e-07 DIIS
-   @DF-RHF iter  10:  -760.41717086964400   -4.73165e-10   2.32390e-08 DIIS
-   @DF-RHF iter  11:  -760.41717086967083   -2.68301e-11   4.09390e-09 DIIS
+   @DF-RHF iter SAD:  -756.13529261921417   -7.56135e+02   0.00000e+00 
+   @DF-RHF iter   1:  -759.90321812805837   -3.76793e+00   4.64975e-03 DIIS/ADIIS
+   @DF-RHF iter   2:  -760.29316733569362   -3.89949e-01   2.47399e-03 DIIS/ADIIS
+   @DF-RHF iter   3:  -760.41328141373788   -1.20114e-01   2.80278e-04 DIIS/ADIIS
+   @DF-RHF iter   4:  -760.41696735839696   -3.68594e-03   5.52234e-05 DIIS
+   @DF-RHF iter   5:  -760.41714836224423   -1.81004e-04   1.65455e-05 DIIS
+   @DF-RHF iter   6:  -760.41716949704380   -2.11348e-05   5.54613e-06 DIIS
+   @DF-RHF iter   7:  -760.41717072468487   -1.22764e-06   1.63501e-06 DIIS
+   @DF-RHF iter   8:  -760.41717086524386   -1.40559e-07   2.62065e-07 DIIS
+   @DF-RHF iter   9:  -760.41717086917174   -3.92788e-09   1.15644e-07 DIIS
+   @DF-RHF iter  10:  -760.41717086964422   -4.72482e-10   2.32390e-08 DIIS
+   @DF-RHF iter  11:  -760.41717086967060   -2.63753e-11   4.09390e-09 DIIS
   Energy and wave function converged.
 
 
@@ -364,14 +364,14 @@ Scratch directory: /tmp/
     NA   [    50 ]
     NB   [    50 ]
 
-  @DF-RHF Final Energy:  -760.41717086967083
+  @DF-RHF Final Energy:  -760.41717086967060
 
    => Energetics <=
 
     Nuclear Repulsion Energy =            731.7637486986080830
-    One-Electron Energy =               -2510.9762515073921350
-    Two-Electron Energy =                1018.7953319391131117
-    Total Energy =                       -760.4171708696708265
+    One-Electron Energy =               -2510.9762515073912255
+    Two-Electron Energy =                1018.7953319391124296
+    Total Energy =                       -760.4171708696705991
 
 Computation Completed
 
@@ -395,16 +395,16 @@ Properties computed using the SCF density matrix
 
  ------------------------------------------------------------------------------------
 
-*** tstop() called on a-Legion at Tue Jan 21 12:50:16 2025
+*** tstop() called on a-Legion at Tue Jan 21 18:14:18 2025
 Module time:
-	user time   =      20.38 seconds =       0.34 minutes
-	system time =       2.75 seconds =       0.05 minutes
-	total time  =          1 seconds =       0.02 minutes
+	user time   =      20.87 seconds =       0.35 minutes
+	system time =       2.91 seconds =       0.05 minutes
+	total time  =          2 seconds =       0.03 minutes
 Total time:
-	user time   =      20.38 seconds =       0.34 minutes
-	system time =       2.75 seconds =       0.05 minutes
-	total time  =          1 seconds =       0.02 minutes
-  Constructing Basis Sets for DFOCC...
+	user time   =      20.87 seconds =       0.35 minutes
+	system time =       2.91 seconds =       0.05 minutes
+	total time  =          2 seconds =       0.03 minutes
+  Constructing Basis Sets for FNOCC...
 
    => Loading Basis Set <=
 
@@ -424,214 +424,130 @@ Total time:
 
 
 *** tstart() called on a-Legion
-*** at Tue Jan 21 12:50:16 2025
+*** at Tue Jan 21 18:14:18 2025
 
 
 
-  Module DFOCC Options:
-  ----------------------------------------------------------------------------
-  ACTIVE                        => (empty)          
-  BASIS_RELATIVISTIC            => (empty)          
-  BENCH                         => (empty)          
-  CC_DIIS_MAX_VECS              => (empty)          
-  CC_DIIS_MIN_VECS              => (empty)          
-  CC_LAMBDA                     => (empty)          
-  CC_MAXITER                    => (empty)          
-  CC_TYPE                       => DF              !
-  CHOLESKY                      => FALSE           !
-  CHOLESKY_TOLERANCE            => (empty)          
-  CI_TYPE                       => (empty)          
-  COMPUT_S2                     => (empty)          
-  CUBEPROP_BASIS_FUNCTIONS      => (empty)          
-  CUBEPROP_FILEPATH             => (empty)          
-  CUBEPROP_ISOCONTOUR_THRESHOLD => (empty)          
-  CUBEPROP_ORBITALS             => (empty)          
-  CUBEPROP_TASKS                => (empty)          
-  CUBIC_BASIS_TOLERANCE         => (empty)          
-  CUBIC_BLOCK_MAX_POINTS        => (empty)          
-  CUBIC_GRID_OVERAGE            => (empty)          
-  CUBIC_GRID_SPACING            => (empty)          
-  CUTOFF                        => (empty)          
-  DDX                           => (empty)          
-  DEBUG                         => (empty)          
-  DERTYPE                       => (empty)          
-  DF_BASIS_CC                   => CC-PVDZ-RI      !
-  DIE_IF_NOT_CONVERGED          => (empty)          
-  DKH_ORDER                     => (empty)          
-  DOCC                          => (empty)          
-  DO_DIIS                       => (empty)          
-  DO_LEVEL_SHIFT                => (empty)          
-  DO_SCS                        => FALSE           !
-  DO_SOS                        => FALSE           !
-  E3_SCALE                      => (empty)          
-  EKT_IP                        => (empty)          
-  EXTERNAL_POTENTIAL_SYMMETRY   => (empty)          
-  E_CONVERGENCE                 => 1e-06           !
-  FREEZE_CORE                   => TRUE            !
-  FREEZE_CORE_POLICY            => (empty)          
-  FROZEN_DOCC                   => (empty)          
-  FROZEN_UOCC                   => (empty)          
-  HESS_TYPE                     => (empty)          
-  INTEGRAL_CUTOFF               => (empty)          
-  INTEGRAL_PACKAGE              => (empty)          
-  LEVEL_SHIFT                   => (empty)          
-  LINEQ_SOLVER                  => (empty)          
-  LITERAL_CFOUR                 => (empty)          
-  MAT_NUM_COLUMN_PRINT          => (empty)          
-  MAX_MOGRAD_CONVERGENCE        => (empty)          
-  MAX_RADIAL_MOMENT             => (empty)          
-  MBIS_D_CONVERGENCE            => (empty)          
-  MBIS_MAXITER                  => (empty)          
-  MBIS_PRUNING_SCHEME           => (empty)          
-  MBIS_RADIAL_POINTS            => (empty)          
-  MBIS_SPHERICAL_POINTS         => (empty)          
-  MOLDEN_WITH_VIRTUAL           => (empty)          
-  MOLDEN_WRITE                  => (empty)          
-  MO_DIIS_NUM_VECS              => (empty)          
-  MO_MAXITER                    => (empty)          
-  MO_STEP_MAX                   => (empty)          
-  MP2_AMP_TYPE                  => (empty)          
-  MP2_OS_SCALE                  => (empty)          
-  MP2_SOS_SCALE                 => (empty)          
-  MP2_SOS_SCALE2                => (empty)          
-  MP2_SS_SCALE                  => (empty)          
-  MP2_TYPE                      => (empty)          
-  MP_TYPE                       => (empty)          
-  NAT_ORBS                      => FALSE           !
-  NUM_FROZEN_DOCC               => (empty)          
-  NUM_FROZEN_UOCC               => (empty)          
-  NUM_GPUS                      => (empty)          
-  OCC_ORBS_PRINT                => (empty)          
-  OEPROP                        => (empty)          
-  OO_SCALE                      => (empty)          
-  OPT_METHOD                    => (empty)          
-  ORB_OPT                       => FALSE           !
-  ORB_RESP_SOLVER               => (empty)          
-  ORTH_TYPE                     => (empty)          
-  PARENT_SYMMETRY               => (empty)          
-  PCG_BETA_TYPE                 => (empty)          
-  PCG_CONVERGENCE               => (empty)          
-  PCG_MAXITER                   => (empty)          
-  PCM                           => (empty)          
-  PE                            => (empty)          
-  PPL_TYPE                      => (empty)          
-  PRINT                         => (empty)          
-  PRINT_NOONS                   => (empty)          
-  PROPERTIES                    => (empty)          
-  PROPERTIES_ORIGIN             => (empty)          
-  PUREAM                        => (empty)          
-  QCHF                          => (empty)          
-  QC_MODULE                     => OCC             !
-  RAS1                          => (empty)          
-  RAS2                          => (empty)          
-  RAS3                          => (empty)          
-  RAS4                          => (empty)          
-  READ_SCF_3INDEX               => (empty)          
-  REGULARIZATION                => (empty)          
-  REG_PARAM                     => (empty)          
-  RELATIVISTIC                  => (empty)          
-  REMP_A                        => (empty)          
-  RESTRICTED_DOCC               => (empty)          
-  RESTRICTED_UOCC               => (empty)          
-  RMS_MOGRAD_CONVERGENCE        => (empty)          
-  R_CONVERGENCE                 => (empty)          
-  SCF_TYPE                      => DISK_DF         !
-  SCREENING                     => (empty)          
-  SCS_TYPE                      => (empty)          
-  SOCC                          => (empty)          
-  SOS_TYPE                      => (empty)          
-  TRIPLES_IABC_TYPE             => (empty)          
-  WFN                           => (empty)          
-  WFN_TYPE                      => DF-CCSD         !
-  WRITER_FILE_LABEL             => (empty)          
-
-	For this residual convergence, default PCG convergence is:     1.00e-07
-	For this energy convergence, default residual convergence is:     3.16e-07
-
- ============================================================================== 
- ============================================================================== 
- ============================================================================== 
-
-                       DF-CCSD   
-              Program Written by Ugur Bozkaya
-              Latest Revision September 9, 2017
-
- ============================================================================== 
- ============================================================================== 
- ============================================================================== 
-
-	MO spaces... 
-
-	 FC   OCC   VIR   FV 
-	----------------------
-	 10   40   190    0
-
-	Number of basis functions in the DF-CC basis: 840
-
-	Available memory                      :  30517.58 MB 
-	Memory requirement for 3-index ints   :    290.31 MB 
-	Memory requirement for DF-CC int trans:    892.73 MB 
-	Memory requirement for CC contractions:   1762.70 MB 
-	Total memory requirement for DF+CC int:   2053.01 MB 
-	Memory requirement for Wabef term (T2):   1680.07 MB 
-	Memory for high mem Wabef algorithm   :   4191.98 MB 
-	I will use the HIGH_MEM Wabef algorithm! 
-
-	Computing DF-MP2 energy ... 
-	======================================================================= 
-	Nuclear Repulsion Energy (a.u.)    :   731.76374869860808
-	DF-HF Energy (a.u.)                :  -760.41717086967083
-	REF Energy (a.u.)                  :  -760.41717086967083
-	DF-MP2 Correlation Energy (a.u.)   :    -2.09527136434450
-	DF-MP2 Total Energy (a.u.)         :  -762.51244223401534
-	======================================================================= 
-
- ============================================================================== 
- ================ Performing DF-CCSD iterations... ============================ 
- ============================================================================== 
-
-  Iter       E_corr                  DE                 T2 RMS        T1 RMS     
-  ----   ----------------      ----------------       ----------    ----------   
-   1      -2.1237036193         -0.0284322550         2.45e-06      2.08e-04 
-   2      -2.1643104673         -0.0406068480         1.06e-06      2.08e-05 
-   3      -2.1738225885         -0.0095121212         3.61e-07      1.26e-05 
-   4      -2.1734294361          0.0003931524         4.87e-08      1.94e-06 
-   5      -2.1735412333         -0.0001117972         3.08e-08      4.54e-06 
-   6      -2.1735711391         -0.0000299058         5.63e-09      1.78e-07 
-   7      -2.1735404456          0.0000306935         2.43e-09      2.47e-07 
-   8      -2.1735502733         -0.0000098278         4.85e-10      1.42e-08 
-   9      -2.1735486681          0.0000016052         2.80e-10      1.19e-08 
-  10      -2.1735494145         -0.0000007464         1.45e-10      8.53e-09 
-
- ============================================================================== 
- ===================== DF-CCSD ITERATIONS ARE CONVERGED ======================= 
- ============================================================================== 
-
-	T1 diagnostic reference value:     0.02000000000000
-	T1 diagnostic                :     0.00935276054835
-
-	======================================================================= 
-	================ CCSD FINAL RESULTS =================================== 
-	======================================================================= 
-	Nuclear Repulsion Energy (a.u.)    :   731.76374869860808
-	SCF Energy (a.u.)                  :  -760.41717086967083
-	REF Energy (a.u.)                  :  -760.41717086967083
-	DF-CCSD Correlation Energy (a.u.)  :    -2.17354941450318
-	DF-CCSD Total Energy (a.u.)        :  -762.59072028417404
-	======================================================================= 
+        *******************************************************
+        *                                                     *
+        *                       DF-CCSD                       *
+        *                 Density-fitted CCSD                 *
+        *                                                     *
+        *                   Eugene DePrince                   *
+        *                                                     *
+        *******************************************************
 
 
-*** tstop() called on a-Legion at Tue Jan 21 12:55:40 2025
+  ==> 3-index integrals <==
+
+  ==> DF Tensor (by Rob Parrish) <==
+
+ => Primary Basis Set <= 
+
+  Basis Set: CC-PVDZ
+    Blend: CC-PVDZ
+    Number of shells: 120
+    Number of basis functions: 240
+    Number of Cartesian functions: 250
+    Spherical Harmonics?: true
+    Max angular momentum: 2
+
+ => Auxiliary Basis Set <= 
+
+  Basis Set: CC-PVDZ-RI
+    Blend: CC-PVDZ-RI
+    Number of shells: 300
+    Number of basis functions: 840
+    Number of Cartesian functions: 960
+    Spherical Harmonics?: true
+    Max angular momentum: 3
+
+  DFTensor Memory: Qso construction needs 0.726 GiB; user supplied 28.312 GiB. 
+    Number of auxiliary functions:         840
+
+  ==> Memory <==
+
+        Total memory available:             29.802 [GiB]
+        CCSD memory requirements:            2.019 [GiB]
+            3-index integrals:               0.284 [GiB]
+            CCSD intermediates:              1.735 [GiB]
+
+  ==> Input parameters <==
+
+        Freeze core orbitals?                 yes
+        Use frozen natural orbitals?           no
+        r_convergence:                  1.000e-07
+        e_convergence:                  1.000e-06
+        Number of DIIS vectors:                 8
+        Number of frozen core orbitals:        10
+        Number of active occupied orbitals:    40
+        Number of active virtual orbitals:    190
+        Number of frozen virtual orbitals:      0
+
+
+  Begin singles and doubles coupled cluster iterations
+
+   Iter  DIIS          Energy       d(Energy)          |d(T)|     time
+      0   0 1   -2.0952713596   -2.0952713596    0.6269397834        2
+      1   1 1   -2.1237036207   -0.0284322611    0.0990361845       18
+      2   2 1   -2.1624622905   -0.0387586698    0.0334708050       18
+      3   3 1   -2.1738189126   -0.0113566221    0.0134934995       19
+      4   4 1   -2.1734312847    0.0003876279    0.0025884575       19
+      5   5 1   -2.1735415504   -0.0001102657    0.0010158287       18
+      6   6 1   -2.1735709579   -0.0000294075    0.0003080530       19
+      7   7 1   -2.1735539665    0.0000169914    0.0001213868       19
+      8   8 1   -2.1735494583    0.0000045082    0.0000380077       20
+      9   8 2   -2.1735508541   -0.0000013958    0.0000136202       18
+     10   8 3   -2.1735493757    0.0000014784    0.0000052800       19
+     11   8 4   -2.1735496504   -0.0000002747    0.0000018677       19
+     12   8 5   -2.1735495957    0.0000000547    0.0000007268       19
+     13   8 6   -2.1735495963   -0.0000000005    0.0000002389       19
+     14   8 7   -2.1735495983   -0.0000000020    0.0000000776       19
+
+  CCSD iterations converged!
+
+        T1 diagnostic:                        0.009352790581
+        D1 diagnostic:                        0.023680459855
+
+        OS MP2 correlation energy:           -1.552347009430
+        SS MP2 correlation energy:           -0.542924350157
+        MP2 correlation energy:              -2.095271359587
+      * MP2 total energy:                  -762.512442229257
+
+        OS CCSD correlation energy:          -1.691833399190
+        SS CCSD correlation energy:          -0.481716199105
+        CCSD correlation energy:             -2.173549598294
+      * CCSD total energy:                 -762.590720467965
+
+  Total time for CCSD iterations:    4091.90 s (user)
+                                       81.20 s (system)
+                                         267 s (total)
+
+  Time per iteration:                 292.28 s (user)
+                                        5.80 s (system)
+                                       19.07 s (total)
+
+*** tstop() called on a-Legion at Tue Jan 21 18:18:49 2025
 Module time:
-	user time   =    4112.40 seconds =      68.54 minutes
-	system time =     279.12 seconds =       4.65 minutes
-	total time  =        324 seconds =       5.40 minutes
+	user time   =    4109.00 seconds =      68.48 minutes
+	system time =      83.14 seconds =       1.39 minutes
+	total time  =        271 seconds =       4.52 minutes
 Total time:
-	user time   =    4134.08 seconds =      68.90 minutes
-	system time =     281.94 seconds =       4.70 minutes
-	total time  =        325 seconds =       5.42 minutes
+	user time   =    4131.25 seconds =      68.85 minutes
+	system time =      86.13 seconds =       1.44 minutes
+	total time  =        273 seconds =       4.55 minutes
 
-    Psi4 stopped on: Tuesday, 21 January 2025 12:55PM
-    Psi4 wall time for execution: 0:05:25.44
+*** tstop() called on a-Legion at Tue Jan 21 18:18:49 2025
+Module time:
+	user time   =    4109.00 seconds =      68.48 minutes
+	system time =      83.18 seconds =       1.39 minutes
+	total time  =        271 seconds =       4.52 minutes
+Total time:
+	user time   =    4131.25 seconds =      68.85 minutes
+	system time =      86.17 seconds =       1.44 minutes
+	total time  =        273 seconds =       4.55 minutes
+
+    Psi4 stopped on: Tuesday, 21 January 2025 06:18PM
+    Psi4 wall time for execution: 0:04:32.88
 
 *** Psi4 exiting successfully. Buy a developer a beer!

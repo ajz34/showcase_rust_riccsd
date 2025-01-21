@@ -9,7 +9,7 @@ set {
     scf_type df
     freeze_core true
     cc_type df
-    qc_module occ
+    qc_module fnocc
 }
 
 molecule h2o_pp5 {
