@@ -1,0 +1,278 @@
+Time elapsed (cderi ao2mo): 143.958538ms
+Initial energy (MP2): -2.095271431824527
+Time elapsed (initial guess): 139.905007ms
+Time elapsed (initialization of intermediates_1): 470.578883ms
+Iteration: 0
+Time elapsed (intermediates_2): 103.895782ms
+Time elapsed (rhs1): 735.221994ms
+Time elapsed (rhs2 lt2_contract): 750.752219ms
+Time elapsed (rhs2 direct_dot): 305.418263ms
+Time elapsed (rhs2 o3v3): 5.919857069s
+Time elapsed (rhs2 o4v2): 894.454297ms
+Time elapsed (rhs2 o2v4): 8.640669427s
+Time elapsed (update_t): 47.99172ms
+Time elapsed (intermediates_1): 458.717498ms
+Time elapsed (energy): 16.119139ms
+Time elapsed: 17.873214952s
+    Energy: -2.095271431824527
+    Energy diff: -0.028432216137443955
+    T1 norm: 0.06562149554074305
+    T2 norm: 0.0741753503971218
+Iteration: 1
+Time elapsed (intermediates_2): 129.126462ms
+Time elapsed (rhs1): 741.714297ms
+Time elapsed (rhs2 lt2_contract): 800.566489ms
+Time elapsed (rhs2 direct_dot): 384.25078ms
+Time elapsed (rhs2 o3v3): 6.052896983s
+Time elapsed (rhs2 o4v2): 983.556ms
+Time elapsed (rhs2 o2v4): 8.783427617s
+Time elapsed (update_t): 47.593966ms
+Time elapsed (intermediates_1): 466.657149ms
+Time elapsed (energy): 15.824683ms
+Time elapsed: 18.405753341s
+    Energy: -2.123703647961971
+    Energy diff: -0.03878754551213559
+    T1 norm: 0.007601407654004979
+    T2 norm: 0.032624772518898906
+Iteration: 2
+Time elapsed (intermediates_2): 132.990021ms
+Time elapsed (rhs1): 757.058115ms
+Time elapsed (rhs2 lt2_contract): 815.035248ms
+Time elapsed (rhs2 direct_dot): 310.967828ms
+Time elapsed (rhs2 o3v3): 5.971210161s
+Time elapsed (rhs2 o4v2): 1.015056953s
+Time elapsed (rhs2 o2v4): 8.605574516s
+Time elapsed (update_t): 47.924044ms
+Time elapsed (intermediates_1): 467.848039ms
+Time elapsed (energy): 15.956476ms
+Time elapsed: 18.139757942s
+    Energy: -2.1624911934741067
+    Energy diff: -0.005747674548142623
+    T1 norm: 0.009134349119772003
+    T2 norm: 0.009938662955180547
+Iteration: 3
+Time elapsed (intermediates_2): 139.318469ms
+Time elapsed (rhs1): 739.138992ms
+Time elapsed (rhs2 lt2_contract): 746.934976ms
+Time elapsed (rhs2 direct_dot): 316.364227ms
+Time elapsed (rhs2 o3v3): 6.04676212s
+Time elapsed (rhs2 o4v2): 1.039533685s
+Time elapsed (rhs2 o2v4): 8.771480814s
+Time elapsed (update_t): 47.282888ms
+Time elapsed (intermediates_1): 453.368599ms
+Time elapsed (energy): 16.886152ms
+Time elapsed: 18.317215775s
+    Energy: -2.1682388680222493
+    Energy diff: -0.003514595780819363
+    T1 norm: 0.002287421395105157
+    T2 norm: 0.005060073513587016
+Iteration: 4
+Time elapsed (intermediates_2): 140.077172ms
+Time elapsed (rhs1): 744.721803ms
+Time elapsed (rhs2 lt2_contract): 815.679973ms
+Time elapsed (rhs2 direct_dot): 318.231892ms
+Time elapsed (rhs2 o3v3): 6.034468569s
+Time elapsed (rhs2 o4v2): 869.553709ms
+Time elapsed (rhs2 o2v4): 8.705847836s
+Time elapsed (update_t): 45.216941ms
+Time elapsed (intermediates_1): 467.281688ms
+Time elapsed (energy): 15.691702ms
+Time elapsed: 18.156895953s
+    Energy: -2.1717534638030687
+    Energy diff: -0.0009560978441531809
+    T1 norm: 0.0018123277401360372
+    T2 norm: 0.0019257338688105832
+Iteration: 5
+Time elapsed (intermediates_2): 127.64943ms
+Time elapsed (rhs1): 737.739141ms
+Time elapsed (rhs2 lt2_contract): 796.340808ms
+Time elapsed (rhs2 direct_dot): 305.184366ms
+Time elapsed (rhs2 o3v3): 6.025646759s
+Time elapsed (rhs2 o4v2): 912.386501ms
+Time elapsed (rhs2 o2v4): 8.8637848s
+Time elapsed (update_t): 50.878111ms
+Time elapsed (intermediates_1): 460.835697ms
+Time elapsed (energy): 16.293677ms
+Time elapsed: 18.296865147s
+    Energy: -2.172709561647222
+    Energy diff: -0.0005096796570649431
+    T1 norm: 0.0006862042526833731
+    T2 norm: 0.0009851523533349882
+Iteration: 6
+Time elapsed (intermediates_2): 140.173346ms
+Time elapsed (rhs1): 747.620071ms
+Time elapsed (rhs2 lt2_contract): 773.780427ms
+Time elapsed (rhs2 direct_dot): 316.458029ms
+Time elapsed (rhs2 o3v3): 6.052107532s
+Time elapsed (rhs2 o4v2): 1.045933385s
+Time elapsed (rhs2 o2v4): 8.924438201s
+Time elapsed (update_t): 45.583825ms
+Time elapsed (intermediates_1): 470.151459ms
+Time elapsed (energy): 16.643938ms
+Time elapsed: 18.533022005s
+    Energy: -2.173219241304287
+    Energy diff: -0.0001766699785541448
+    T1 norm: 0.0004524525710878896
+    T2 norm: 0.00041907163428059964
+Iteration: 7
+Time elapsed (intermediates_2): 127.832279ms
+Time elapsed (rhs1): 750.711871ms
+Time elapsed (rhs2 lt2_contract): 772.676217ms
+Time elapsed (rhs2 direct_dot): 336.032288ms
+Time elapsed (rhs2 o3v3): 5.984412155s
+Time elapsed (rhs2 o4v2): 920.873515ms
+Time elapsed (rhs2 o2v4): 8.722471684s
+Time elapsed (update_t): 50.825869ms
+Time elapsed (intermediates_1): 469.836819ms
+Time elapsed (energy): 15.031549ms
+Time elapsed: 18.15082298s
+    Energy: -2.173395911282841
+    Energy diff: -8.889002884515662e-5
+    T1 norm: 0.0002119604757142078
+    T2 norm: 0.00021759485623044266
+Iteration: 8
+Time elapsed (intermediates_2): 138.750931ms
+Time elapsed (rhs1): 746.039745ms
+Time elapsed (rhs2 lt2_contract): 790.68677ms
+Time elapsed (rhs2 direct_dot): 348.927838ms
+Time elapsed (rhs2 o3v3): 6.10574622s
+Time elapsed (rhs2 o4v2): 1.153162002s
+Time elapsed (rhs2 o2v4): 8.904695404s
+Time elapsed (update_t): 45.98989ms
+Time elapsed (intermediates_1): 475.430314ms
+Time elapsed (energy): 15.82587ms
+Time elapsed: 18.725397462s
+    Energy: -2.173484801311686
+    Energy diff: -3.508142621733157e-5
+    T1 norm: 0.0001297667703142648
+    T2 norm: 0.00010072436117489778
+Iteration: 9
+Time elapsed (intermediates_2): 142.267791ms
+Time elapsed (rhs1): 768.384038ms
+Time elapsed (rhs2 lt2_contract): 837.1884ms
+Time elapsed (rhs2 direct_dot): 307.181453ms
+Time elapsed (rhs2 o3v3): 6.107993848s
+Time elapsed (rhs2 o4v2): 1.033601826s
+Time elapsed (rhs2 o2v4): 8.798263519s
+Time elapsed (update_t): 49.170737ms
+Time elapsed (intermediates_1): 466.277218ms
+Time elapsed (energy): 16.1322ms
+Time elapsed: 18.526592826s
+    Energy: -2.1735198827379034
+    Energy diff: -1.725626723603213e-5
+    T1 norm: 6.768355368351098e-5
+    T2 norm: 5.3818916505277926e-5
+Iteration: 10
+Time elapsed (intermediates_2): 131.395446ms
+Time elapsed (rhs1): 764.378003ms
+Time elapsed (rhs2 lt2_contract): 848.260219ms
+Time elapsed (rhs2 direct_dot): 298.138778ms
+Time elapsed (rhs2 o3v3): 5.963286121s
+Time elapsed (rhs2 o4v2): 1.044215337s
+Time elapsed (rhs2 o2v4): 8.634616761s
+Time elapsed (update_t): 48.489212ms
+Time elapsed (intermediates_1): 468.543826ms
+Time elapsed (energy): 15.564658ms
+Time elapsed: 18.217024905s
+    Energy: -2.1735371390051395
+    Energy diff: -7.38314162429532e-6
+    T1 norm: 4.032802986145443e-5
+    T2 norm: 2.6862856664632808e-5
+Iteration: 11
+Time elapsed (intermediates_2): 129.496912ms
+Time elapsed (rhs1): 759.876852ms
+Time elapsed (rhs2 lt2_contract): 830.624867ms
+Time elapsed (rhs2 direct_dot): 327.242518ms
+Time elapsed (rhs2 o3v3): 6.031044468s
+Time elapsed (rhs2 o4v2): 801.370339ms
+Time elapsed (rhs2 o2v4): 8.916015456s
+Time elapsed (update_t): 47.508481ms
+Time elapsed (intermediates_1): 468.575885ms
+Time elapsed (energy): 14.703847ms
+Time elapsed: 18.32658548s
+    Energy: -2.1735445221467637
+    Energy diff: -3.6290035949626542e-6
+    T1 norm: 2.2256461366516377e-5
+    T2 norm: 1.4841645518413312e-5
+Iteration: 12
+Time elapsed (intermediates_2): 132.244386ms
+Time elapsed (rhs1): 757.075951ms
+Time elapsed (rhs2 lt2_contract): 786.920581ms
+Time elapsed (rhs2 direct_dot): 309.594102ms
+Time elapsed (rhs2 o3v3): 6.066937355s
+Time elapsed (rhs2 o4v2): 1.072568692s
+Time elapsed (rhs2 o2v4): 8.699535057s
+Time elapsed (update_t): 47.485922ms
+Time elapsed (intermediates_1): 467.34463ms
+Time elapsed (energy): 15.67033ms
+Time elapsed: 18.355514736s
+    Energy: -2.1735481511503587
+    Energy diff: -1.6451038975517918e-6
+    T1 norm: 1.3166953650828269e-5
+    T2 norm: 7.887577863928697e-6
+Iteration: 13
+Time elapsed (intermediates_2): 141.741808ms
+Time elapsed (rhs1): 761.426316ms
+Time elapsed (rhs2 lt2_contract): 823.385744ms
+Time elapsed (rhs2 direct_dot): 334.703676ms
+Time elapsed (rhs2 o3v3): 6.037788516s
+Time elapsed (rhs2 o4v2): 1.053867121s
+Time elapsed (rhs2 o2v4): 8.794698084s
+Time elapsed (update_t): 47.1226ms
+Time elapsed (intermediates_1): 464.264707ms
+Time elapsed (energy): 15.935104ms
+Time elapsed: 18.475067845s
+    Energy: -2.1735497962542563
+    Energy diff: -8.189350855225541e-7
+    T1 norm: 7.50459912605626e-6
+    T2 norm: 4.484562766973874e-6
+Iteration: 14
+Time elapsed (intermediates_2): 125.902877ms
+Time elapsed (rhs1): 747.386187ms
+Time elapsed (rhs2 lt2_contract): 826.200897ms
+Time elapsed (rhs2 direct_dot): 389.010788ms
+Time elapsed (rhs2 o3v3): 6.069169562s
+Time elapsed (rhs2 o4v2): 848.301787ms
+Time elapsed (rhs2 o2v4): 8.792255779s
+Time elapsed (update_t): 50.378248ms
+Time elapsed (intermediates_1): 469.778651ms
+Time elapsed (energy): 15.546849ms
+Time elapsed: 18.334071729s
+    Energy: -2.173550615189342
+    Energy diff: -3.889532687040287e-7
+    T1 norm: 4.443716602445567e-6
+    T2 norm: 2.4939398078414803e-6
+Iteration: 15
+Time elapsed (intermediates_2): 135.312437ms
+Time elapsed (rhs1): 760.513267ms
+Time elapsed (rhs2 lt2_contract): 850.11246ms
+Time elapsed (rhs2 direct_dot): 307.431985ms
+Time elapsed (rhs2 o3v3): 5.988686676s
+Time elapsed (rhs2 o4v2): 1.152346332s
+Time elapsed (rhs2 o2v4): 8.742320427s
+Time elapsed (update_t): 48.632879ms
+Time elapsed (intermediates_1): 465.672878ms
+Time elapsed (energy): 15.336692ms
+Time elapsed: 18.466707982s
+    Energy: -2.1735510041426105
+    Energy diff: -1.9762140013313e-7
+    T1 norm: 2.583250098640245e-6
+    T2 norm: 1.447286057450685e-6
+Iteration: 16
+Time elapsed (intermediates_2): 136.86546ms
+Time elapsed (rhs1): 749.32272ms
+Time elapsed (rhs2 lt2_contract): 841.186144ms
+Time elapsed (rhs2 direct_dot): 383.254633ms
+Time elapsed (rhs2 o3v3): 6.034770382s
+Time elapsed (rhs2 o4v2): 1.044627357s
+Time elapsed (rhs2 o2v4): 8.856139908s
+Time elapsed (update_t): 48.896465ms
+Time elapsed (intermediates_1): 460.66355ms
+Time elapsed (energy): 16.235498ms
+Time elapsed: 18.572091538s
+    Energy: -2.1735512017640106
+    Energy diff: -9.770953823817763e-8
+    T1 norm: 1.5350213642331968e-6
+    T2 norm: 8.291583254797892e-7
+CCSD converged in 16 iterations.
+Final CCSD Corr Energy      -2.1735512995
